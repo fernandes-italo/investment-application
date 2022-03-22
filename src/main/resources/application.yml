@@ -42,5 +42,5 @@ investment:
       account:
          without-balance-message: 'Saldo insuficiente.'
          without-balance-description: 'Não foi possível efetuar o investimento, o saldo da conta informada é insuficiente.'
-         is-not-debited-message: 'N�o foi possível debitar da sua conta corrente.'
+         is-not-debited-message: 'Não foi possível debitar da sua conta corrente.'
          is-not-debited-description: 'Não foi possível efetuar o débito e confirmar seu investimento, tivemos um problema em nossos serviços.'
