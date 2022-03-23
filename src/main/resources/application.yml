@@ -35,7 +35,7 @@ investment:
          debit-url: '/api/v1/accounts/debit/{accountId}'
    exceptions:
       product:
-         not-found-message: 'Prouto não encontrado.'
+         not-found-message: 'Produto não encontrado.'
          not-found-description: 'Não foi possível encontrar o produto informado.'
          without-balance-for-private-product-message: 'Produto selecionado não pode ser Private.'
          without-balance-for-private-product-description: 'O produto selecionado é da modalidade Private, porém seus recursos não são compatãveis para esse investimento.'
