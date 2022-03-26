@@ -6,4 +6,6 @@ public interface AccountFacade {
 
     AccountBalanceVO getAccountBalanceById(Long accountId);
 
+    Boolean debitAccount(Long accountId, Double valueOfInvestment);
+
 }

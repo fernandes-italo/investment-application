@@ -34,8 +34,23 @@ public class Investment {
         this.value = value;
     }
 
-    public Boolean suficientBalanceForInvestment(Double accountBalance) {
+    public Boolean sufficientBalanceForInvestment(Double accountBalance) {
         return this.value < accountBalance;
+    }
+
+    public Boolean verifyPrivateProductForInvestment(Double accountBalance, Product product) {
+
+        if (!product.isInvestmentPrivate()) {
+            this.investmentPrivate = false;
+            return true;
+        }
+
+        if (product.isInvestmentPrivate() && (accountBalance >= product.getMinimumValue())) {
+            this.investmentPrivate = true;
+            return true;
+        }
+
+        return false;
     }
 
 }

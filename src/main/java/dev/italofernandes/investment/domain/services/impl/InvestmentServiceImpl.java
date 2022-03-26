@@ -5,7 +5,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import dev.italofernandes.investment.domain.exceptions.AccountIsNotDebitedException;
 import dev.italofernandes.investment.domain.exceptions.AccountWithoutBalanceException;
+import dev.italofernandes.investment.domain.exceptions.AccountWithoutBalanceForPrivateProductException;
 import dev.italofernandes.investment.domain.exceptions.ProductNotFoundException;
 import dev.italofernandes.investment.domain.models.Investment;
 import dev.italofernandes.investment.domain.models.Product;
@@ -36,6 +38,18 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Value("${investment.exceptions.account.without-balance-description}")
     private String accountWithoutBalanceDescription;
 
+    @Value("${investment.exceptions.product.without-balance-for-private-product-message}")
+    private String accountWithoutBalanceForPrivateProductMessage;
+
+    @Value("${investment.exceptions.product.without-balance-for-private-product-description}")
+    private String accountWithoutBalanceForPrivateProductDescription;
+
+    @Value("${investment.exceptions.account.is-not-debited-message}")
+    private String accountIsNotDebitedMessage;
+
+    @Value("${investment.exceptions.account.is-not-debited-description}")
+    private String accountIsNotDebitedDescription;
+
     @Override
     public Investment invest(Long productId, Long accountId, Double valueInvestment) {
 
@@ -50,12 +64,26 @@ public class InvestmentServiceImpl implements InvestmentService {
 
         AccountBalanceVO accountBalanceVO = accountFacade.getAccountBalanceById(accountId);
 
-        if (!investment.suficientBalanceForInvestment(accountBalanceVO.getBalance()))
+        if (!investment.sufficientBalanceForInvestment(accountBalanceVO.getBalance()))
             throw new AccountWithoutBalanceException(
                     accountWithoutBalanceMessage,
                     accountWithoutBalanceDescription);
 
-        return null;
+        if (!investment.verifyPrivateProductForInvestment(accountBalanceVO.getBalance(), product.get()))
+            throw new AccountWithoutBalanceForPrivateProductException(
+                    accountWithoutBalanceForPrivateProductMessage,
+                    accountWithoutBalanceForPrivateProductDescription);
+
+        boolean isDebited = accountFacade.debitAccount(accountId, valueInvestment);
+
+        if (!isDebited)
+            throw new AccountIsNotDebitedException(
+                    accountIsNotDebitedMessage,
+                    accountIsNotDebitedDescription);
+
+        investmentRepository.save(investment);
+
+        return investment;
     }
 
 }

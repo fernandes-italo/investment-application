@@ -17,6 +17,6 @@ public class Product {
 
     private String name;
     private Double minimumValue;
-    private Boolean investmentPrivate;
+    private boolean investmentPrivate;
 
 }
