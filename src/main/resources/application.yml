@@ -17,22 +17,22 @@ spring:
       url: jdbc:h2:mem:ms-investment
       username: sa
       password: password
-      jpa:
-         database: h2
-         hibernate:
-            ddl-auto: create
-         defer-datasource-initialization: true
-      h2:
-         console:
-            enabled: true
+   jpa:
+      database: h2
+      hibernate:
+         ddl-auto: create
+      defer-datasource-initialization: true
+   h2:
+      console:
+         enabled: true
 
 investment:
    paths:
       client-account:
          name: 'account-microservice'
          base-url: 'http://localhost:8381'
-         balance-url: '/api/v1/accounts/balance/{accountId}'
-         debit-url: '/api/v1/accounts/debit/{accountId}'
+         balance-url: '/api/accounts/balance/{accountId}'
+         debit-url: '/api/accounts/debit/{accountId}'
    exceptions:
       product:
          not-found-message: 'Produto não encontrado.'
